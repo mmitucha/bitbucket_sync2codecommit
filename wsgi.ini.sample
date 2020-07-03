@@ -1,0 +1,9 @@
+[uwsgi]
+
+master = true
+processes = 1
+need-app = true
+# harakiri = 1800
+chdir = ./
+http-socket = :5000
+file = ./app.py
