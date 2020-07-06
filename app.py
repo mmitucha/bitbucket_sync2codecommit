@@ -28,9 +28,8 @@ def run_command(command):
     return rc
 
 
-@app.route("/hooks/<repo>", methods=["POST"])
-def bb_webhooks_handler(repo):
-    logging.info(f"Request from repo: {repo}")
+@app.route("/hooks", methods=["POST"])
+def bb_webhooks_handler():
     router.route(request.headers["X-Event-Key"], request.json)
     return ("", 204)
 

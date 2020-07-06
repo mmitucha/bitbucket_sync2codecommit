@@ -13,7 +13,7 @@ fi
 
 REPO_NAME=$(basename $REPO_FULLNAME)
 
-echo "=== Starting repo $REPO_NAME sync ==="
+echo "=== Starting repo $REPO_FULLNAME sync ==="
 VERBOSE=''
 #VERBOSE='-v'
 
@@ -39,6 +39,6 @@ else
 fi
 
 # # Push to destination repository
-# git config remote.sync.url >&- || git remote add sync "$DEST_REPO"
-# git push sync --mirror
-# echo "=== End of repo $REPO_NAME sync ==="
+git config remote.sync.url >&- || git remote add sync "$DEST_REPO"
+git push sync --mirror
+echo "=== End of repo $REPO_FULLNAME sync ==="
