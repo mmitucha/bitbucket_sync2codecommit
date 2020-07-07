@@ -1,8 +1,16 @@
 #!/usr/bin/env bash
 set -xe
 
-BASEDIR=$(dirname "$0")
-REPOS_DIR="$BASEDIR/_repos"
+# Check if repos dir specified
+if [ -z "$REPOS_DIR" ]
+then
+    BASEDIR=$(dirname "$0")
+    REPOS_DIR="$BASEDIR/_repos"
+fi
+
+### Check $REPOS_DIR , if not found create it
+[ ! -d "$REPOS_DIR" ] && mkdir -p -m 750 "$REPOS_DIR"
+
 
 REPO_FULLNAME=$1
 if [ -z "$1" ]

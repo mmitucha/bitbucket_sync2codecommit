@@ -7,15 +7,15 @@ from flask import Flask
 from flask import request
 import json
 import logging
+import os
+import settings
 import shlex
 import subprocess
-import threading
 import sys
+import threading
 
-SUBPROCESS_TIMEOUT = 60
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
-
 app = application = Flask(__name__, static_folder=None)
 
 
@@ -25,10 +25,10 @@ class Command(object):
         self.cmd = cmd
         self.process = None
 
-    def run(self, timeout):
+    def run(self, timeout, env):
         def target():
             logging.info('Thread started')
-            self.process = subprocess.Popen(self.cmd, shell=True)
+            self.process = subprocess.Popen(self.cmd, env=env, shell=True)
             self.process.communicate()
             logging.info('Thread finished')
 
@@ -52,4 +52,10 @@ def bb_webhooks_handler():
 def _handle_repo_push(event: event_schemas.RepoPush):
     logging.info(f"One or more commits pushed to: {event.repository.name}")
     repository_fullname = event.repository.full_name
-    command = Command(f"./sync_repository_mirror.sh {repository_fullname}").run(SUBPROCESS_TIMEOUT)
+    my_env = os.environ.copy()
+    logging.info(f"REPOS DIR: {settings.REPOS_DIR}")
+    my_env['REPOS_DIR'] = settings.REPOS_DIR
+    command = Command(f"./sync_repository_mirror.sh {repository_fullname}").run(
+        settings.SUBPROCESS_TIMEOUT,
+        env=my_env
+        )
