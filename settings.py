@@ -12,3 +12,7 @@ if os.getenv("REPOS_DIR"):
 else:
     REPOS_DIR = os.path.join(BASE_DIR, "_repos")
 
+if os.getenv("HOOKS_URL_PREFIX"):
+    HOOKS_URL_PREFIX = os.getenv("HOOKS_URL_PREFIX")
+else:
+    HOOKS_URL_PREFIX = None
