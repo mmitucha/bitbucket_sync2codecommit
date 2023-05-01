@@ -1,4 +1,4 @@
 bitbucket-webhooks==0.0.10
-Flask==1.1.2
+Flask==2.3.2
 uWSGI==2.0.19.1
 python-dotenv
